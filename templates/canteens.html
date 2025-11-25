@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="text-center mb-5">
+    <h2 class="display-5 fw-bold mb-3">Choose Your Canteen</h2>
+    <p class="lead text-muted">Select a canteen to start ordering</p>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for canteen in canteens %}
+    <div class="col">
+        <div class="card h-100 shadow-sm hover-card">
+            <div class="card-body text-center p-4">
+                <div class="mb-3">
+                    <i class="fas fa-store fa-4x text-primary"></i>
+                </div>
+                <h3 class="card-title">{{ canteen['name'] }}</h3>
+                <p class="text-muted mb-2">
+                    <i class="fas fa-map-marker-alt me-2"></i>{{ canteen['location'] }}
+                </p>
+                <p class="card-text">{{ canteen['description'] }}</p>
+                <div class="mb-3">
+                    <small class="text-success">
+                        <i class="fas fa-clock me-1"></i>
+                        {{ canteen['opening_time'] }} - {{ canteen['closing_time'] }}
+                    </small>
+                </div>
+                <a href="{{ url_for('main.select_canteen', canteen_id=canteen['id']) }}"
+                    class="btn btn-primary btn-lg w-100">
+                    <i class="fas fa-utensils me-2"></i>Order Here
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+    .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hover-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15) !important;
+    }
+</style>
+{% endblock %}

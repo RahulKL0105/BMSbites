@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2 class="mb-4">Your Cart</h2>
+
+{% if cart_items %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                {% for item in cart_items %}
+                <div class="row align-items-center mb-3 pb-3 border-bottom">
+                    <div class="col-md-2">
+                        <img src="{{ url_for('static', filename='img/' + item['image_url']) }}"
+                            class="img-fluid rounded" alt="{{ item['name'] }}"
+                            onerror="this.src='https://via.placeholder.com/100'">
+                    </div>
+                    <div class="col-md-4">
+                        <h5>{{ item['name'] }}</h5>
+                        <p class="text-muted mb-0">₹{{ item['price'] }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <form action="{{ url_for('main.update_cart', item_id=item['id']) }}" method="POST"
+                            class="d-flex align-items-center">
+                            <button type="submit" name="action" value="decrease"
+                                class="btn btn-sm btn-outline-secondary">-</button>
+                            <span class="mx-3">{{ item['quantity'] }}</span>
+                            <button type="submit" name="action" value="increase"
+                                class="btn btn-sm btn-outline-secondary">+</button>
+                        </form>
+                    </div>
+                    <div class="col-md-2 text-end">
+                        <h5>₹{{ item['total'] }}</h5>
+                    </div>
+                    <div class="col-md-1 text-end">
+                        <form action="{{ url_for('main.update_cart', item_id=item['id']) }}" method="POST">
+                            <button type="submit" name="action" value="remove" class="btn btn-sm btn-danger"><i
+                                    class="fas fa-trash"></i></button>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title">Order Summary</h4>
+                <hr>
+                <div class="d-flex justify-content-between mb-3">
+                    <span>Total</span>
+                    <h4 class="text-primary">₹{{ total }}</h4>
+                </div>
+                <a href="{{ url_for('main.checkout') }}" class="btn btn-success w-100 btn-lg">Proceed to Checkout</a>
+            </div>
+        </div>
+
+        {% if recommendations %}
+        <div class="card shadow-sm mt-4">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">You might also like</h5>
+            </div>
+            <div class="card-body">
+                {% for item in recommendations %}
+                <div class="d-flex align-items-center mb-3">
+                    <img src="{{ url_for('static', filename='img/' + item['image_url']) }}" class="rounded me-3"
+                        width="50" height="50" style="object-fit: cover;"
+                        onerror="this.src='https://via.placeholder.com/50'">
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0">{{ item['name'] }}</h6>
+                        <small class="text-muted">₹{{ item['price'] }}</small>
+                    </div>
+                    <form action="{{ url_for('main.add_to_cart', item_id=item['id']) }}" method="POST">
+                        <button type="submit" class="btn btn-sm btn-outline-primary">+</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% else %}
+<div class="text-center py-5">
+    <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
+    <h3>Your cart is empty</h3>
+    <a href="{{ url_for('main.menu') }}" class="btn btn-primary mt-3">Browse Menu</a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,174 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Manage Menu</h2>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addItemModal">
+        <i class="fas fa-plus me-2"></i>Add New Item
+    </button>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Canteen</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in menu_items %}
+            <tr>
+                <td>
+                    <img src="{{ url_for('static', filename='img/' + item['image_url']) }}" width="50" height="50"
+                        class="rounded" style="object-fit: cover;" onerror="this.src='https://via.placeholder.com/50'">
+                </td>
+                <td>{{ item['name'] }}</td>
+                <td><span class="badge bg-info">Canteen {{ item['canteen_id'] }}</span></td>
+                <td><span class="badge bg-secondary">{{ item['category'] }}</span></td>
+                <td>₹{{ item['price'] }}</td>
+                <td>
+                    {% if item['is_available'] %}
+                    <span class="badge bg-success">Available</span>
+                    {% else %}
+                    <span class="badge bg-danger">Unavailable</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal"
+                        data-bs-target="#editItemModal{{ item['id'] }}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <a href="{{ url_for('admin.delete_item', item_id=item['id']) }}"
+                        class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+
+            <!-- Edit Modal -->
+            <div class="modal fade" id="editItemModal{{ item['id'] }}" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="{{ url_for('admin.edit_item', item_id=item['id']) }}" method="POST">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Edit Item</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Name</label>
+                                    <input type="text" name="name" class="form-control" value="{{ item['name'] }}"
+                                        required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Description</label>
+                                    <textarea name="description" class="form-control"
+                                        required>{{ item['description'] }}</textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Price</label>
+                                    <input type="number" step="0.01" name="price" class="form-control"
+                                        value="{{ item['price'] }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Category</label>
+                                    <select name="category" class="form-select">
+                                        <option value="veg" {% if item['category']=='veg' %}selected{% endif %}>Veg
+                                        </option>
+                                        <option value="non-veg" {% if item['category']=='non-veg' %}selected{% endif %}>
+                                            Non-Veg</option>
+                                        <option value="beverage" {% if item['category']=='beverage' %}selected{% endif
+                                            %}>Beverage</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Image URL</label>
+                                    <input type="text" name="image_url" class="form-control"
+                                        value="{{ item['image_url'] }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Canteen</label>
+                                    <select name="canteen_id" class="form-select" required>
+                                        {% for canteen in canteens %}
+                                        <option value="{{ canteen['id'] }}" {% if item['canteen_id']==canteen['id']
+                                            %}selected{% endif %}>{{ canteen['name'] }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" name="is_available" class="form-check-input"
+                                        id="avail{{ item['id'] }}" {% if item['is_available'] %}checked{% endif %}>
+                                    <label class="form-check-label" for="avail{{ item['id'] }}">Available</label>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addItemModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ url_for('admin.add_item') }}" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Price</label>
+                        <input type="number" step="0.01" name="price" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select name="category" class="form-select">
+                            <option value="veg">Veg</option>
+                            <option value="non-veg">Non-Veg</option>
+                            <option value="beverage">Beverage</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Canteen</label>
+                        <select name="canteen_id" class="form-select" required>
+                            {% for canteen in canteens %}
+                            <option value="{{ canteen['id'] }}">{{ canteen['name'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Image URL</label>
+                        <input type="text" name="image_url" class="form-control" placeholder="e.g., burger.jpg">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

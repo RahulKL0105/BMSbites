@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2 class="mb-4">Manage Orders</h2>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Time</th>
+                <th>Update Status</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>#{{ order['id'] }}</td>
+                <td>{{ order['username'] }}</td>
+                <td>₹{{ order['total_amount'] }}</td>
+                <td>
+                    <span
+                        class="badge bg-{{ 'warning' if order['status'] == 'preparing' else 'info' if order['status'] == 'ready' else 'success' }}">
+                        {{ order['status']|upper }}
+                    </span>
+                </td>
+                <td>{{ order['created_at'] }}</td>
+                <td>
+                    <form action="{{ url_for('admin.update_status', order_id=order['id']) }}" method="POST"
+                        class="d-flex gap-2">
+                        <select name="status" class="form-select form-select-sm" style="width: auto;">
+                            <option value="preparing" {% if order['status']=='preparing' %}selected{% endif %}>Preparing
+                            </option>
+                            <option value="ready" {% if order['status']=='ready' %}selected{% endif %}>Ready to Pick Up
+                            </option>
+                            <option value="completed" {% if order['status']=='completed' %}selected{% endif %}>Completed
+                            </option>
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                    </form>
+                </td>
+                <td>
+                    <a href="{{ url_for('main.order_detail', order_id=order['id']) }}"
+                        class="btn btn-sm btn-outline-secondary">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

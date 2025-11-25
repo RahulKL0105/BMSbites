@@ -1,0 +1,318 @@
+/* Custom Styles for BMS Bites - Light Blue Theme */
+
+:root {
+    --primary-color: #87CEEB;
+    /* Sky Blue - Primary */
+    --secondary-color: #4A90E2;
+    /* Medium Blue - Accents */
+    --dark-color: #1a1a1a;
+    /* Almost Black */
+    --light-bg: #E3F2FD;
+    /* Very Light Blue */
+    --white: #FFFFFF;
+    /* Pure White */
+    --text-dark: #2c3e50;
+    /* Dark text */
+    --success-color: #4CAF50;
+    /* Keep green for success */
+    --warning-color: #FFA726;
+    /* Keep orange for warning */
+    --danger-color: #EF5350;
+    /* Keep red for danger */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 50%, #90CAF9 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: var(--text-dark);
+}
+
+/* Navbar Styling */
+.navbar-dark {
+    background: linear-gradient(90deg, #4A90E2 0%, #2196F3 100%) !important;
+    box-shadow: 0 2px 10px rgba(74, 144, 226, 0.3);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: var(--white) !important;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--white) !important;
+    transform: translateY(-2px);
+}
+
+/* Card Styling */
+.card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    background-color: var(--white);
+    border: 2px solid #B3E5FC;
+    border-radius: 12px;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(74, 144, 226, 0.3);
+    border-color: var(--secondary-color);
+}
+
+.card-header {
+    background: linear-gradient(90deg, #87CEEB 0%, #4A90E2 100%);
+    color: var(--white);
+    border-bottom: none;
+    font-weight: 600;
+}
+
+/* Button Styling */
+.btn-primary {
+    background: linear-gradient(135deg, #4A90E2 0%, #2196F3 100%);
+    border: none;
+    color: var(--white);
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+}
+
+.btn-outline-primary {
+    border: 2px solid var(--secondary-color);
+    color: var(--secondary-color);
+    background-color: var(--white);
+    font-weight: 600;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    transform: scale(1.05);
+}
+
+.btn-success {
+    background-color: var(--success-color);
+    border: none;
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    border: none;
+}
+
+/* Background Sections */
+.bg-light {
+    background: linear-gradient(135deg, #FFFFFF 0%, #E3F2FD 100%) !important;
+    border: 1px solid #B3E5FC;
+}
+
+/* Tables */
+.table {
+    background-color: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead {
+    background: linear-gradient(90deg, #87CEEB 0%, #4A90E2 100%);
+    color: var(--white);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #E3F2FD;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #BBDEFB;
+}
+
+/* Badges */
+.badge {
+    font-weight: 600;
+    padding: 0.5em 0.8em;
+}
+
+.bg-primary {
+    background-color: var(--secondary-color) !important;
+}
+
+.bg-info {
+    background-color: #29B6F6 !important;
+}
+
+/* Forms */
+.form-control,
+.form-select {
+    border: 2px solid #B3E5FC;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
+}
+
+/* Alerts */
+.alert {
+    border-radius: 8px;
+    border: none;
+}
+
+.alert-success {
+    background-color: #C8E6C9;
+    color: #2E7D32;
+}
+
+.alert-info {
+    background-color: #B3E5FC;
+    color: #01579B;
+}
+
+.alert-warning {
+    background-color: #FFE0B2;
+    color: #E65100;
+}
+
+.alert-danger {
+    background-color: #FFCDD2;
+    color: #C62828;
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+    background: linear-gradient(90deg, #1a1a1a 0%, #2c3e50 100%) !important;
+    color: var(--white);
+}
+
+/* Carousel */
+.carousel-item img {
+    height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* Loading animation */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(74, 144, 226, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--secondary-color);
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Card image overlay effect */
+.card-img-top {
+    transition: opacity 0.3s;
+    border-radius: 12px 12px 0 0;
+}
+
+.card:hover .card-img-top {
+    opacity: 0.95;
+}
+
+/* Custom hover effects */
+.hover-card {
+    transition: all 0.3s ease;
+}
+
+.hover-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(74, 144, 226, 0.3);
+}
+
+/* Modal */
+.modal-content {
+    border-radius: 12px;
+    border: 2px solid #B3E5FC;
+}
+
+.modal-header {
+    background: linear-gradient(90deg, #87CEEB 0%, #4A90E2 100%);
+    color: var(--white);
+    border-bottom: none;
+}
+
+/* Dropdown */
+.dropdown-menu {
+    border: 2px solid #B3E5FC;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+}
+
+.dropdown-item:hover {
+    background-color: #E3F2FD;
+    color: var(--secondary-color);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #E3F2FD;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #87CEEB 0%, #4A90E2 100%);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #4A90E2 0%, #2196F3 100%);
+}
+
+/* Text colors */
+.text-primary {
+    color: var(--secondary-color) !important;
+}
+
+.text-muted {
+    color: #607D8B !important;
+}
+
+/* Container backgrounds */
+.container {
+    background-color: transparent;
+}
+
+/* Special styling for feature cards */
+.feature-card {
+    background: linear-gradient(135deg, #FFFFFF 0%, #E3F2FD 100%);
+    border: 2px solid #B3E5FC;
+    border-radius: 12px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(74, 144, 226, 0.25);
+    border-color: var(--secondary-color);
+}
