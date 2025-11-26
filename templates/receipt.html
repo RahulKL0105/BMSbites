@@ -178,11 +178,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <p class="mb-1"><strong>Subtotal:</strong></p>
+                    <p class="mb-1"><strong>Platform & Preorder Fee (2%):</strong></p>
                     <p class="mb-1"><strong>Tax (0%):</strong></p>
                     <p class="mb-0"><strong>Discount:</strong></p>
                 </div>
                 <div class="col-md-6 text-end">
-                    <p class="mb-1">₹{{ "%.2f"|format(order['total_amount']) }}</p>
+                    <p class="mb-1">₹{{ "%.2f"|format(order['total_amount'] - order['platform_fee']) }}</p>
+                    <p class="mb-1">₹{{ "%.2f"|format(order['platform_fee']) }}</p>
                     <p class="mb-1">₹0.00</p>
                     <p class="mb-0">₹0.00</p>
                 </div>

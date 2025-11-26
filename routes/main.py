@@ -55,10 +55,14 @@ def cart():
             cart_items.append(item)
             total += item['total']
             
+    # Calculate Platform & Preorder Fee (2%)
+    platform_fee = round(total * 0.02, 2)
+    grand_total = total + platform_fee
+            
     # Get recommendations based on cart
     recommendations = analytics_mgr.get_recommendations(list(cart_ids.keys()))
             
-    return render_template('cart.html', cart_items=cart_items, total=total, recommendations=recommendations)
+    return render_template('cart.html', cart_items=cart_items, subtotal=total, platform_fee=platform_fee, total=grand_total, recommendations=recommendations)
 
 @main_bp.route('/add_to_cart/<int:item_id>', methods=['POST'])
 def add_to_cart(item_id):
@@ -115,19 +119,35 @@ def checkout():
         
         # Process order
         cart_items_data = []
+        total_items_price = 0
         for item_id, qty in cart_ids.items():
             item = menu_mgr.get_item(item_id)
             if item:
+                item_total = item['price'] * qty
+                total_items_price += item_total
                 cart_items_data.append({
                     'menu_id': item['id'],
                     'quantity': qty,
                     'price': item['price']
                 })
         
-        order_id = order_mgr.create_order(session['user_id'], canteen_id, cart_items_data, pickup_time)
+        # Calculate fee again for security
+        platform_fee = round(total_items_price * 0.02, 2)
+        
+        order_id = order_mgr.create_order(session['user_id'], canteen_id, cart_items_data, pickup_time, platform_fee)
         session['cart'] = {} # Clear cart
         flash(f'Order #{order_id} placed successfully! Pickup time: {pickup_time}', 'success')
         return redirect(url_for('main.orders'))
+    
+    # Calculate totals for display
+    total_items_price = 0
+    for item_id, qty in cart_ids.items():
+        item = menu_mgr.get_item(item_id)
+        if item:
+            total_items_price += item['price'] * qty
+            
+    platform_fee = round(total_items_price * 0.02, 2)
+    grand_total = total_items_price + platform_fee
     
     # Generate time slots from 9:00 AM to 5:30 PM in 20-minute intervals
     time_slots = []
@@ -173,7 +193,7 @@ def checkout():
             current_minute -= 60
             current_hour += 1
         
-    return render_template('checkout.html', time_slots=time_slots)
+    return render_template('checkout.html', time_slots=time_slots, subtotal=total_items_price, platform_fee=platform_fee, total=grand_total)
 
 @main_bp.route('/orders')
 def orders():

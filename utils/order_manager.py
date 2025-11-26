@@ -7,17 +7,24 @@ class OrderManager:
     def __init__(self, db_path=None):
         self.db_path = db_path or Config.DATABASE
 
-    def create_order(self, user_id, canteen_id, cart_items, pickup_time=None):
+    def create_order(self, user_id, canteen_id, cart_items, pickup_time=None, platform_fee=0.0):
         """Creates an order and order items."""
         # cart_items is a list of dicts: {'menu_id': 1, 'quantity': 2, 'price': 50}
         
         total_amount = sum(item['price'] * item['quantity'] for item in cart_items)
+        # Note: total_amount here is just the items total. The final bill amount should include fee.
+        # But for DB, we store items total and fee separately, or total_amount includes fee?
+        # Schema says: total_amount REAL NOT NULL, platform_fee REAL DEFAULT 0.0
+        # Usually total_amount in orders table is the final amount the user paid.
+        # Let's assume total_amount = items_total + platform_fee.
+        
+        final_amount = total_amount + platform_fee
         
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         
-        cursor.execute("INSERT INTO orders (user_id, canteen_id, total_amount, status, pickup_time) VALUES (?, ?, ?, ?, ?)",
-                       (user_id, canteen_id, total_amount, 'preparing', pickup_time))
+        cursor.execute("INSERT INTO orders (user_id, canteen_id, total_amount, platform_fee, status, pickup_time) VALUES (?, ?, ?, ?, ?, ?)",
+                       (user_id, canteen_id, final_amount, platform_fee, 'preparing', pickup_time))
         order_id = cursor.lastrowid
         
         for item in cart_items:

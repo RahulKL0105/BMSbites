@@ -42,6 +42,7 @@ CREATE TABLE orders (
     user_id INTEGER NOT NULL,
     canteen_id INTEGER NOT NULL,
     total_amount REAL NOT NULL,
+    platform_fee REAL DEFAULT 0.0,
     status TEXT NOT NULL DEFAULT 'preparing', -- 'preparing', 'ready', 'completed'
     pickup_time TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
