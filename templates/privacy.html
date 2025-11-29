@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Privacy Policy</h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <p class="lead">At BMS Bites, we are committed to protecting your privacy and ensuring the security of your
+                personal information.</p>
+
+            <h3 class="mt-4">Information We Collect</h3>
+
+            <h5 class="mt-3">1. Personal Information</h5>
+            <ul>
+                <li>Username and password (encrypted)</li>
+                <li>Order history and preferences</li>
+                <li>Pickup time selections</li>
+            </ul>
+
+            <h5 class="mt-3">2. Usage Data</h5>
+            <ul>
+                <li>Pages visited and features used</li>
+                <li>Order patterns and frequency</li>
+                <li>Device and browser information</li>
+                <li>Session duration and interaction data</li>
+            </ul>
+
+            <h3 class="mt-4">How We Use Your Information</h3>
+            <ul>
+                <li><strong>Order Processing:</strong> To facilitate food orders and coordinate with canteen vendors
+                </li>
+                <li><strong>Service Improvement:</strong> To analyze usage patterns and enhance user experience</li>
+                <li><strong>Communication:</strong> To send order confirmations and important service updates</li>
+                <li><strong>Analytics:</strong> To provide personalized recommendations and improve menu offerings</li>
+            </ul>
+
+            <h3 class="mt-4">Data Security</h3>
+            <p>We implement industry-standard security measures to protect your data:</p>
+            <ul>
+                <li>Password encryption using secure hashing algorithms</li>
+                <li>Secure database storage with access controls</li>
+                <li>Regular security audits and updates</li>
+                <li>Limited employee access to personal data</li>
+            </ul>
+
+            <h3 class="mt-4">Data Sharing</h3>
+            <p>We do not sell, trade, or rent your personal information to third parties. Your data is shared only with:
+            </p>
+            <ul>
+                <li><strong>Canteen Vendors:</strong> Order details necessary for food preparation</li>
+                <li><strong>College Administration:</strong> Aggregated, anonymized usage statistics (if required)</li>
+            </ul>
+
+            <h3 class="mt-4">Your Rights</h3>
+            <p>You have the right to:</p>
+            <ul>
+                <li>Access your personal data</li>
+                <li>Request data correction or deletion</li>
+                <li>Opt-out of data collection (may limit service functionality)</li>
+                <li>Export your order history</li>
+            </ul>
+
+            <h3 class="mt-4">Cookies and Tracking</h3>
+            <p>We use session cookies to maintain your login state and shopping cart. These cookies are essential for
+                the platform to function and do not track you across other websites.</p>
+
+            <h3 class="mt-4">Data Retention</h3>
+            <p>We retain your personal data for as long as your account is active. Order history is maintained for 12
+                months for record-keeping purposes. You may request account deletion at any time.</p>
+
+            <h3 class="mt-4">Changes to Privacy Policy</h3>
+            <p>We may update this privacy policy periodically. Significant changes will be communicated through the
+                platform. Continued use of the service after changes constitutes acceptance of the updated policy.</p>
+
+            <h3 class="mt-4">Contact Us</h3>
+            <p>For privacy-related questions or concerns, please contact us through the <a
+                    href="{{ url_for('main.contact') }}">Contact Us</a> page.</p>
+
+            <p class="mt-4 mb-0"><strong>Last Updated:</strong> January 2025</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
