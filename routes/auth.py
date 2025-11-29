@@ -38,17 +38,38 @@ def signup():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        confirm_password = request.form.get('confirm_password', '')
+        
+        # Validation
+        if len(username) < 3:
+            flash('Username must be at least 3 characters long.', 'danger')
+            return render_template('signup.html')
+        
+        if len(password) < 6:
+            flash('Password must be at least 6 characters long.', 'danger')
+            return render_template('signup.html')
+        
+        if password != confirm_password:
+            flash('Passwords do not match.', 'danger')
+            return render_template('signup.html')
         
         conn = get_db_connection()
         try:
+            # Check if username already exists
+            existing_user = conn.execute('SELECT id FROM users WHERE username = ?', (username,)).fetchone()
+            if existing_user:
+                flash('Username already exists. Please choose a different username.', 'danger')
+                return render_template('signup.html')
+            
+            # Create new user with role='customer'
             hashed_pw = generate_password_hash(password)
-            conn.execute('INSERT INTO users (username, password_hash) VALUES (?, ?)',
-                         (username, hashed_pw))
+            conn.execute('INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)',
+                         (username, hashed_pw, 'customer'))
             conn.commit()
-            flash('Registration successful! Please login.', 'success')
+            flash('Registration successful! Please login with your new account.', 'success')
             return redirect(url_for('auth.login'))
         except sqlite3.IntegrityError:
-            flash('Username already exists.', 'danger')
+            flash('An error occurred during registration. Please try again.', 'danger')
         finally:
             conn.close()
             

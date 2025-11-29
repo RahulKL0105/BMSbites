@@ -209,8 +209,16 @@ def order_detail(order_id):
         return redirect(url_for('auth.login'))
         
     details = order_mgr.get_order_details(order_id)
-    if not details or details['order']['user_id'] != session['user_id']:
+    if not details:
         flash('Order not found', 'danger')
+        return redirect(url_for('main.orders'))
+    
+    # Allow admins to view any order, but customers can only view their own
+    is_admin = session.get('role') == 'admin'
+    is_own_order = details['order']['user_id'] == session['user_id']
+    
+    if not is_admin and not is_own_order:
+        flash('You do not have permission to view this order', 'danger')
         return redirect(url_for('main.orders'))
         
     return render_template('order_detail.html', **details)
