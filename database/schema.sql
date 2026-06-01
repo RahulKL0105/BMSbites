@@ -7,7 +7,10 @@ DROP TABLE IF EXISTS order_items;
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
+    email TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
+    security_question TEXT NOT NULL,
+    security_answer TEXT NOT NULL,
     role TEXT NOT NULL DEFAULT 'customer', -- 'customer' or 'admin'
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

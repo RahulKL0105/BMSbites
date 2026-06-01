@@ -14,29 +14,29 @@ def init_db():
     
     # Seed Admin Accounts
     admin_pass = generate_password_hash('admin123')
-    cursor.execute("INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)",
-                   ('admin', admin_pass, 'admin'))
+    cursor.execute("INSERT INTO users (username, email, password_hash, security_question, security_answer, role) VALUES (?, ?, ?, ?, ?, ?)",
+                   ('admin', 'admin@bmsbites.com', admin_pass, 'What is your favorite food?', 'biryani', 'admin'))
     
     admin2_pass = generate_password_hash('admin456')
-    cursor.execute("INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)",
-                   ('canteen_admin', admin2_pass, 'admin'))
+    cursor.execute("INSERT INTO users (username, email, password_hash, security_question, security_answer, role) VALUES (?, ?, ?, ?, ?, ?)",
+                   ('canteen_admin', 'canteen@bmsbites.com', admin2_pass, 'What is your favorite food?', 'dosa', 'admin'))
     
     # Seed Multiple Customer Accounts
     users = [
-        ('rahul', 'user123', 'customer'),
-        ('priya', 'pass123', 'customer'),
-        ('amit', 'amit2024', 'customer'),
-        ('sneha', 'sneha@123', 'customer'),
-        ('karthik', 'karthik99', 'customer'),
-        ('anjali', 'anjali456', 'customer'),
-        ('rohan', 'rohan2025', 'customer'),
-        ('divya', 'divya789', 'customer'),
+        ('rahul', 'rahul@example.com', 'user123', 'What is your favorite food?', 'masala dosa', 'customer'),
+        ('priya', 'priya@example.com', 'pass123', 'What is your favorite food?', 'pizza', 'customer'),
+        ('amit', 'amit@example.com', 'amit2024', 'What is your favorite food?', 'burger', 'customer'),
+        ('sneha', 'sneha@example.com', 'sneha@123', 'What is your favorite food?', 'samosa', 'customer'),
+        ('karthik', 'karthik@example.com', 'karthik99', 'What is your favorite food?', 'vada', 'customer'),
+        ('anjali', 'anjali@example.com', 'anjali456', 'What is your favorite food?', 'coffee', 'customer'),
+        ('rohan', 'rohan@example.com', 'rohan2025', 'What is your favorite food?', 'noodles', 'customer'),
+        ('divya', 'divya@example.com', 'divya789', 'What is your favorite food?', 'shakes', 'customer'),
     ]
     
-    for username, password, role in users:
+    for username, email, password, question, answer, role in users:
         hashed_pass = generate_password_hash(password)
-        cursor.execute("INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)",
-                       (username, hashed_pass, role))
+        cursor.execute("INSERT INTO users (username, email, password_hash, security_question, security_answer, role) VALUES (?, ?, ?, ?, ?, ?)",
+                       (username, email, hashed_pass, question, answer, role))
 
     # Seed Canteens
     canteens = [
